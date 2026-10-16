@@ -1,9 +1,9 @@
 # scout-skill
 
-A Claude Code skill that tells you what you don't know yet.
+A Claude Code skill that tells you what you don't know yet, on any topic.
 
 Run `/scout` and it does live web research, throws out hype and old news, checks every find at its
-source, and returns a short briefing of technologies and insights that are **real, new, useful and
+source, and returns a short briefing of developments and insights that are **real, new, useful and
 not yet obvious**, each with who it affects and what to watch next.
 
 ## What you get
@@ -46,6 +46,7 @@ Requires Claude Code with web search and fetch available. No other dependencies.
 
 ```
 /scout
+/scout longevity research
 /scout --finance
 /scout --technology --days 14
 /scout --finance --ai --top 3
@@ -59,9 +60,13 @@ Requires Claude Code with web search and fetch available. No other dependencies.
 | `--strategy` | Market and competitive intelligence, research and synthesis tooling, planning and decision methods. |
 | `--ai` | New models, agents and AI tooling that are usable now, not announced. |
 | `--data` | Databases, BI, pipelines, visualization, query tools. |
-| `--focus <topic>` | Anything else, in your own words. |
+| `--science` | Research turning into something usable: materials, energy, space, biology, climate. |
+| `--health` | Medicine, public health, nutrition, fitness, mental health. |
+| `--policy` | Laws, regulation, rulings and government programs. |
+| `--business` | Companies, markets, industries, labor, consumer behavior. |
+| `--focus <topic>` | Anything else, in your own words. Plain words after `/scout` work too. |
 
-Presets combine (`--finance --ai`). With no focus flag, it hunts broadly.
+Presets combine (`--finance --ai`). With no topic, it sweeps all fields, not just tech.
 
 | other flag | meaning |
 | --- | --- |

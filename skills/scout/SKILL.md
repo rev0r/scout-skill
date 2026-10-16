@@ -1,22 +1,24 @@
 ---
 name: scout
 description: >-
-  Find new, useful technologies and non-obvious insights the user would not
-  have come across on their own, then brief them on the few that matter. Runs
-  live web research across primary sources, filters out hype and old news,
-  verifies each find at its source, and returns a short ranked briefing that says
-  who each find affects and what to watch next. Use when the user types /scout, asks what's new
-  or emerging, asks what they're missing, or wants a technology or trend
-  briefing.
-argument-hint: "[--technology | --finance | --strategy | --ai | --data | --focus <topic>] [--days N] [--top N] [--deep]"
+  Find new, useful developments and non-obvious insights on any topic the
+  user names (technology, science, health, business, policy, culture, anything),
+  or across all fields when none is named, then brief them on the few that
+  matter. Runs live web research across primary sources, filters out hype and
+  old news, verifies each find at its source, and returns a short ranked
+  briefing that says who each find affects and what to watch next. Use when the
+  user types /scout, asks what's new or emerging in any area, asks what they're
+  missing, or wants a trend or insight briefing.
+argument-hint: "[any topic in plain words] [--technology | --finance | --strategy | --ai | --data | --science | --health | --policy | --business | --focus <topic>] [--days N] [--top N] [--deep]"
 allowed-tools: WebSearch WebFetch
 ---
 
 # scout
 
-For when you want to know what you don't know. Instead of a news roundup, this does live research,
-throws out hype and old news, checks every find at its source, and hands back a short briefing of
-technologies and insights that are real, new, useful and not yet obvious.
+For when you want to know what you don't know, on any subject. Instead of a news roundup, this does
+live research, throws out hype and old news, checks every find at its source, and hands back a short
+briefing of developments and insights that are real, new, useful and not yet obvious. Technology is
+one possible topic, not the default one.
 
 What the user typed after `/scout`: `$ARGUMENTS`
 
@@ -24,7 +26,7 @@ If that is blank, or still reads like a placeholder, nothing was passed: use the
 
 ## Step 1: set the lens
 
-Read the flags out of the request. Pick a focus with one or more preset flags, or name your own.
+Read the request. The topic can be any words the user typed (`/scout longevity research`, `/scout --focus shipping costs`), a preset flag, or both. Any topic is valid; do not steer it toward technology.
 
 | focus flag | what it hunts |
 | --- | --- |
@@ -33,10 +35,13 @@ Read the flags out of the request. Pick a focus with one or more preset flags, o
 | `--strategy` | Tools and methods for strategy and consulting work: market and competitive intelligence, research and synthesis tooling, planning and decision methods, analysis and deck automation. |
 | `--ai` | New models, agents and AI tooling that are usable now, not announced. |
 | `--data` | Data and analytics: databases, BI, pipelines, visualization, query tools. |
-| `--focus <topic>` | Anything else, in your own words. |
+| `--science` | Research results turning into something usable: materials, energy, space, biology, climate. |
+| `--health` | Medicine, public health, nutrition, fitness and mental health: approvals, trials with real results, guideline changes. |
+| `--policy` | Laws, regulation, court rulings and government programs that change what people or firms can do. |
+| `--business` | Companies, markets, industries, labor and consumer behavior: new models, shifts in cost or demand, notable moves. |
+| `--focus <topic>` | Anything else, in your own words. Plain words after `/scout` work the same way. |
 
-Presets combine: `--finance --ai` hunts AI inside finance. With no focus flag, hunt broadly across all
-of the above.
+Presets combine: `--finance --ai` hunts AI inside finance. With no topic and no flag, sweep widely across technology, science, health, business, policy and culture, and rank by the four tests alone. Do not let technology dominate unless it earns the slots.
 
 | other flag | meaning |
 | --- | --- |
@@ -64,9 +69,9 @@ reported and is skipped unless something material changed since.
 
 Search by source type, not just by topic. Each type is a different kind of signal:
 
-- **Primary releases**: GitHub releases and trending repos, changelogs, official docs, launch posts.
-- **Practitioner talk**: Hacker News, Reddit, engineering blogs. This is where early adopters say what
-  actually worked and what broke.
+- **Primary releases**: GitHub releases and trending repos, changelogs, official docs, launch posts, regulator and agency announcements, court opinions, journal and preprint pages.
+- **Practitioner talk**: Hacker News, Reddit, trade publications, professional forums, expert blogs.
+  This is where people who use the thing say what actually worked and what broke.
 - **Research**: arXiv, conference papers, lab blogs, but only where the work is turning into something
   usable.
 - **Money and adoption**: funding rounds, acquisitions, enterprise pilots, regulatory filings. Someone
@@ -80,8 +85,10 @@ for niche or very recent topics, and for every search under `--deep`.
 
 A candidate must pass all four tests or it is dropped:
 
-1. **Real.** Usable today: released code, a product anyone can sign up for, published docs, or
-   documented paying users. A demo video, a press release or a paper alone fails.
+1. **Real.** Verifiable and in effect today: released code, a product anyone can sign up for,
+   published docs, documented users, an enacted rule or ruling, or a published study with data and
+   methods. A demo video, a press release, an announcement of intent or a single unreplicated claim
+   alone fails.
 2. **New.** It appeared, or changed materially (a major release, a price drop, a notable adopter),
    inside the window. Older things pass only if something just changed.
 3. **Useful.** You can say in one sentence who is affected and what changes for them, or which
