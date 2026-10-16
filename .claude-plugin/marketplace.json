@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "scout-skill",
+  "description": "The Scout skill for Claude Code",
+  "owner": {
+    "name": "Alan Do"
+  },
+  "plugins": [
+    {
+      "name": "scout-skill",
+      "description": "Researches the live web for new, useful technologies and non-obvious insights, filters out hype and old news, verifies each find at its source, and returns a short briefing with a first step to try for each.",
+      "source": "./",
+      "category": "productivity",
+      "homepage": "https://github.com/rev0r/scout-skill"
+    }
+  ]
+}
