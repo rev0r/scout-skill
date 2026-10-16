@@ -4,11 +4,12 @@ description: >-
   Find new, useful technologies and non-obvious insights the user would not
   have come across on their own, then brief them on the few that matter. Runs
   live web research across primary sources, filters out hype and old news,
-  verifies each find at its source, and returns a short ranked briefing with a
-  first step to try for each. Use when the user types /scout, asks what's new
+  verifies each find at its source, and returns a short ranked briefing that says
+  who each find affects and what to watch next. Use when the user types /scout, asks what's new
   or emerging, asks what they're missing, or wants a technology or trend
   briefing.
 argument-hint: "[--technology | --finance | --strategy | --ai | --data | --focus <topic>] [--days N] [--top N] [--deep]"
+allowed-tools: WebSearch WebFetch
 ---
 
 # scout
@@ -43,9 +44,15 @@ of the above.
 | `--top N` | How many items to report. Default 5. |
 | `--deep` | More searches (15 to 25) and extended search mode. Default is 8 to 12. |
 
-With a focus, keep one slot for a find outside it and label it **Adjacent**. The things you would not
-have known are often next to your field, not in it. If the conversation says what the user is working
-toward, use it to judge usefulness, but never to pad the list.
+With a focus, keep one slot for a find just outside it and label it **Adjacent**. The things you
+would not have known are often next to the topic, not in it.
+
+**Unbiased by design.** Ignore everything you know about the person running this: their profile,
+preferences, memory, past chats, job, goals, interests and tone settings. Do not search past chats
+or memory to personalize. Only the flags and focus typed in the request shape the search. Choose,
+rank and describe finds as if for an anonymous reader: no tie-ins to the reader's career or
+projects, no persona or role framing, and no coaching or "Check:" lines. Judge every candidate by
+the four tests alone.
 
 Get today's date from the session, never from memory. The window is today minus `--days`. Use the
 real current date and year in every search.
@@ -77,9 +84,8 @@ A candidate must pass all four tests or it is dropped:
    documented paying users. A demo video, a press release or a paper alone fails.
 2. **New.** It appeared, or changed materially (a major release, a price drop, a notable adopter),
    inside the window. Older things pass only if something just changed.
-3. **Useful.** You can say in one sentence who benefits, what they can now do that was hard or
-   impossible, and a first step cheap enough to try in under an hour or a decision it informs. If you
-   cannot say that, drop it.
+3. **Useful.** You can say in one sentence who is affected and what changes for them, or which
+   decision it informs. If you cannot say that, drop it.
 4. **Non-obvious.** Not already the lead story on mainstream tech news. A famous thing passes only if
    a lesser-known angle changes how it should be used.
 
@@ -123,10 +129,17 @@ Lead with the bottom line in one or two lines: how many items made it, and the s
 one. Then, per item, numbered:
 
 - **Name**: what it is, in plain words, one line.
-- **Why it matters**: what it lets you do or decide, and for whom.
-- **Try it**: one concrete first step that takes under an hour.
+- **Why it matters**: what it lets people do or decide, in one line.
+- **What changed**: a one-line before and after. "Before: X. Now: Y." Use only what the source says.
+- **Who this affects**: one line on who should care, so the reader can tell at once whether it
+  concerns them.
+- **What to watch next**: the next dated event or decision point the source names, such as a release,
+  a deadline, a comment period closing or a ruling. If the source names none, write "No date
+  announced". Never guess a date.
 - **Status**: Early, Growing or Mature, plus confidence, date and the one caveat.
 - **Source**: the link.
+
+The briefing reports. It does not assign homework or tell the reader what to do.
 
 Then:
 
@@ -154,8 +167,11 @@ item, a different focus, or running this weekly as a scheduled task.
 - Never invent a technology, release, date, number or quote. If you are not sure, drop the item or
   label it unverified.
 - State the cost of anything paid. Never write sales copy and never recommend on a maker's say-so alone.
-- Before suggesting the user try a tool, note anything risky: it needs broad permissions, API keys or
-  access to private data, or it runs unfamiliar code. Suggest a sandbox for unfamiliar code.
+- Report, don't instruct. Do not tell the reader to try, buy, adopt or switch anything unless they ask.
+- Do not personalize. Nothing about the reader changes what is found, how it is ranked or how it is
+  worded.
+- If an item is a tool that needs broad permissions, API keys or access to private data, or runs
+  unfamiliar code, say so in its Status caveat.
 - Paraphrase sources. At most one quote per source, under 15 words. Never reproduce lyrics, poems or
   long passages.
 - If the search tool is unavailable, say so plainly and stop. Do not fill the briefing from memory.

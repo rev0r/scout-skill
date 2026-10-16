@@ -4,15 +4,16 @@ A Claude Code skill that tells you what you don't know yet.
 
 Run `/scout` and it does live web research, throws out hype and old news, checks every find at its
 source, and returns a short briefing of technologies and insights that are **real, new, useful and
-not yet obvious**, each with a first step you can try in under an hour.
+not yet obvious**, each with who it affects and what to watch next.
 
 ## What you get
 
 A two-minute briefing:
 
 1. **The bottom line**: how many finds made it, and the most useful one.
-2. **Each find**: what it is, why it matters and to whom, a first step to try, its maturity and
-   confidence, and the source link.
+2. **Each find**: what it is, why it matters, a one-line before and after, who it affects, what to
+   watch next (the next dated event, or "No date announced"), its maturity and confidence, and the
+   source link.
 3. **Watchlist**: promising but unproven items, and what would have to happen for them to graduate.
 4. **Just outside the window**: strong finds that were only too old, with dates.
 5. **Skipped**: a hyped thing it rejected and why.
@@ -74,11 +75,24 @@ Every candidate has to pass four tests:
 
 - **Real**: usable today (code, docs, a product you can sign up for). A demo or press release is not enough.
 - **New**: appeared or changed materially inside the window.
-- **Useful**: you can name who benefits, what they can now do, and a first step.
+- **Useful**: you can name who is affected and what changes for them, or the decision it informs.
 - **Non-obvious**: not already the lead story everywhere.
 
 Each survivor is then verified at its primary source and labeled Confirmed, Likely or Unverified.
 Unverified items never make the main list.
+
+It is unbiased by design: it ignores your profile, preferences and memory, so only the flags you
+type shape what it finds. That is an instruction to Claude, not a hard switch, so for a guaranteed
+clean run, turn off your preferences and memory in Settings first.
+
+## Running without approval prompts
+
+In Claude Code, web tools normally ask before they run. The skill's frontmatter lists
+`allowed-tools: WebSearch WebFetch`, which pre-approves those two tools for the turn that runs the
+skill. It does not override your own deny or ask rules, and an organization's managed settings can
+ignore it. Writing the `.scout/seen.md` log is not pre-approved, so it may still prompt. For fully
+unattended runs, use a scheduled task and set its permission mode, or add allow rules in your
+settings. If you would rather approve each request, delete the `allowed-tools` line.
 
 ## Memory
 

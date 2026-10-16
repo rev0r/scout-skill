@@ -1,7 +1,7 @@
 {
   "name": "scout-skill",
   "description": "Finds new, useful technologies and non-obvious insights you would not have come across on your own. Live research, hype filtered out, every find checked at its source, delivered as a short briefing.",
-  "version": "1.0.0",
+  "version": "1.3.0",
   "author": {
     "name": "Alan Do"
   },

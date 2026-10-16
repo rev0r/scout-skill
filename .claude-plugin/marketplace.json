@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "scout-skill",
-      "description": "Researches the live web for new, useful technologies and non-obvious insights, filters out hype and old news, verifies each find at its source, and returns a short briefing with a first step to try for each.",
+      "description": "Researches the live web for new, useful technologies and non-obvious insights, filters out hype and old news, verifies each find at its source, and returns a short briefing that says who each find affects and what to watch next.",
       "source": "./",
       "category": "productivity",
       "homepage": "https://github.com/rev0r/scout-skill"
