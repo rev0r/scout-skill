@@ -1,7 +1,7 @@
 {
   "name": "scout-skill",
   "description": "Finds new, useful developments and non-obvious insights on any topic that you would not have come across on your own. Live research, hype filtered out, every find checked at its source, delivered as a short briefing.",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "author": {
     "name": "Alan Do"
   },

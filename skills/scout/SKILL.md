@@ -1,16 +1,8 @@
 ---
 name: scout
-description: >-
-  Find new, useful developments and non-obvious insights on any topic the
-  user names (technology, science, health, business, policy, culture, anything),
-  or across all fields when none is named, then brief them on the few that
-  matter. Runs live web research across primary sources, filters out hype and
-  old news, verifies each find at its source, and returns a short ranked
-  briefing that says who each find affects and what to watch next. Use when the
-  user types /scout, asks what's new or emerging in any area, asks what they're
-  missing, or wants a trend or insight briefing.
+description: Find new, useful developments and non-obvious insights on any topic the user names (technology, science, health, business, policy, culture, anything), or across all fields when none is named, then brief them on the few that matter. Runs live web research across primary sources, filters out hype and old news, verifies each find at its source, and returns a short ranked briefing that says who each find affects and what to watch next. Use when the user types /scout, asks what's new or emerging in any area, asks what they're missing, or wants a trend or insight briefing.
 argument-hint: "[any topic in plain words] [--technology | --finance | --strategy | --ai | --data | --science | --health | --policy | --business | --focus <topic>] [--days N] [--top N] [--deep]"
-allowed-tools: WebSearch WebFetch
+allowed-tools: WebSearch WebFetch Read Write
 ---
 
 # scout
@@ -49,8 +41,9 @@ Presets combine: `--finance --ai` hunts AI inside finance. With no topic and no 
 | `--top N` | How many items to report. Default 5. |
 | `--deep` | More searches (15 to 25) and extended search mode. Default is 8 to 12. |
 
-With a focus, keep one slot for a find just outside it and label it **Adjacent**. The things you
-would not have known are often next to the topic, not in it.
+With a focus, keep one of the top N slots for a find just outside it and label it **Adjacent**. It
+counts toward N, not on top of it. The things you would not have known are often next to the topic,
+not in it.
 
 **Unbiased by design.** Ignore everything you know about the person running this: their profile,
 preferences, memory, past chats, job, goals, interests and tone settings. Do not search past chats
@@ -90,7 +83,10 @@ A candidate must pass all four tests or it is dropped:
    methods. A demo video, a press release, an announcement of intent or a single unreplicated claim
    alone fails.
 2. **New.** It appeared, or changed materially (a major release, a price drop, a notable adopter),
-   inside the window. Older things pass only if something just changed.
+   inside the window. Older things pass only if something just changed. A living page, such as a
+   leaderboard or release notes, counts as new if it was materially updated inside the window. A
+   launch that is scheduled but has not happened yet goes on the watchlist with its due date, not in
+   the main list.
 3. **Useful.** You can say in one sentence who is affected and what changes for them, or which
    decision it informs. If you cannot say that, drop it.
 4. **Non-obvious.** Not already the lead story on mainstream tech news. A famous thing passes only if
@@ -106,7 +102,14 @@ after that second wave, report fewer than N. Never pad the list to hit the numbe
 ## Step 4: verify
 
 For every kept item, open the primary source (the repo, docs, release notes or the maker's own post)
-with a fetch, and confirm:
+with a fetch, and confirm. Fetch only works on URLs you already have, so if you do not have the
+primary URL, run a targeted search for it first, then fetch it.
+
+If the primary source is blocked or unreadable, try an official mirror (the Federal Register, the
+regulator's own site, the vendor's docs or release notes). If that also fails, cap the item at Likely
+or Unverified and say in the caveat which source could not be read. Do not hide the gap.
+
+Confirm:
 
 - it exists and the link works
 - the date
@@ -116,9 +119,12 @@ with a fetch, and confirm:
 
 Label confidence:
 
-- **Confirmed**: a primary source plus independent evidence.
-- **Likely**: a primary source only.
-- **Unverified**: secondary sources only. These go on the watchlist, never in the main list.
+- **Confirmed**: the primary source was read, plus independent corroboration.
+- **Likely**: the primary source was read and nothing else corroborates it, or the primary could not
+  be read but several independent professional sources (law firms, accounting firms, regulators'
+  mirrors) agree on the dates and substance. Say which case applies.
+- **Unverified**: a single secondary source, vendor-only sources, or trade press that cannot be
+  cross-checked. These go on the watchlist, never in the main list.
 
 A wrong date, a dead link or a claim backed only by marketing means the item is dropped or demoted.
 
@@ -128,7 +134,11 @@ Two traps to check for:
   primary source that says "expected". Report the primary source's own wording, and when headlines
   disagree on a number, say so and use none of them.
 - **Search results are titles, not facts.** Take dates, figures and status from the page you opened,
-  never from a title or snippet. If the primary source cannot be read, the item is Unverified at best.
+  never from a title or snippet. If the primary source cannot be read, follow the fallback above and
+  label the item honestly.
+- **Vendors rank themselves.** Comparison and "best tools" pages written by a vendor are leads, never
+  evidence. Use them to find candidates, then verify at the primary source. If the page ranks its own
+  product, say so.
 
 ## Step 5: the briefing
 
@@ -136,8 +146,8 @@ Lead with the bottom line in one or two lines: how many items made it, and the s
 one. Then, per item, numbered:
 
 - **Name**: what it is, in plain words, one line.
-- **Why it matters**: what it lets people do or decide, in one line.
-- **What changed**: a one-line before and after. "Before: X. Now: Y." Use only what the source says.
+- **What changed and why it matters**: one line. "Before: X. Now: Y, which lets people do or decide
+  Z." Use only what the source says.
 - **Who this affects**: one line on who should care, so the reader can tell at once whether it
   concerns them.
 - **What to watch next**: the next dated event or decision point the source names, such as a release,
@@ -158,14 +168,15 @@ Then:
   Leave it out if nothing notable was rejected.
 - **Sources**: the links used.
 
-Write it to be read in two minutes. No preamble, no hype words ("revolutionary", "game-changing"),
-no recap of the search process.
+Write it to be read in two minutes: about 600 words before the Sources list. No preamble, no hype
+words ("revolutionary", "game-changing"), no recap of the search process.
 
 ## Step 6: log it
 
 Append each reported item's name and today's date to `.scout/seen.md` in the current directory
-(create it if missing). This is the only file you write. Then offer one next step: a deep dive on one
-item, a different focus, or running this weekly as a scheduled task.
+(create it if missing). This is the only file you write. If file tools are unavailable, skip logging
+and say so in one line. Then offer one next step: a deep dive on one item, a different focus, or
+running this weekly as a scheduled task.
 
 ## Rules
 
@@ -181,4 +192,6 @@ item, a different focus, or running this weekly as a scheduled task.
   unfamiliar code, say so in its Status caveat.
 - Paraphrase sources. At most one quote per source, under 15 words. Never reproduce lyrics, poems or
   long passages.
+- Disclose conflicts of interest. If an item involves the company that makes the model running this
+  skill, report it neutrally and add a one-line disclosure in the caveat.
 - If the search tool is unavailable, say so plainly and stop. Do not fill the briefing from memory.
